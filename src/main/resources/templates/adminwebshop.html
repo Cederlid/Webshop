@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Web shop</title>
+</head>
+<body>
+<h3>Add products</h3>
+<form method="post" action="/adminwebshop" th:object="${product}">
+    <tr>
+        <td>Product category:</td></br>
+        <td><input type="text" th:field="*{category}" /></td>
+    </tr>
+    <tr>
+        <td>Product name:</td></br>
+        <td><input type="text" th:field="*{name}" /></td>
+    </tr>
+    <tr></br>
+        <td>Product price:</td></br>
+        <td><input type="text" th:field="*{price}" /></td>
+    </tr>
+    <tr></br>
+        <td><button type="submit">Save</button> </td>
+    </tr>
+</form>
+</body>
+</html>
