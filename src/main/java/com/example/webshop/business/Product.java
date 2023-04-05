@@ -2,14 +2,28 @@ package com.example.webshop.business;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private float price;
+    private double price;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
+
+    public Product(){
+
+    }
+    public Product(Category category, String name, double price){
+        this.category = category;
+        this.name = name;
+        this.price = price;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -27,11 +41,20 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
 }

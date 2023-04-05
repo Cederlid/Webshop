@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Web shop</title>
+</head>
+<body>
+<h3>Lägg till produkt!</h3>
+<form th:action="@{/new}" method="post" th:object="${product}">
+    Produkt kategori: <select name="category" th:field="*{category}">
+        <option th:each="category : ${T(com.example.webshop.business.Category).values()}"
+                th:value="${category}" th:text="${category}"></option>
+    </select></br>
+    Produkt namn: <input type="text" th:field="*{name}"/></br>
+    Produkt pris: <input type="text" th:field="*{price}"/></br>
+    <input type="submit" value="Spara"/>
+</form>
+</body>
+</html>

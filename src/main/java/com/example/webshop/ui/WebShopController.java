@@ -1,16 +1,14 @@
 package com.example.webshop.ui;
 
+import com.example.webshop.business.Category;
 import com.example.webshop.business.Customer;
 import com.example.webshop.business.Product;
 import com.example.webshop.business.WebShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class WebShopController {
@@ -20,41 +18,47 @@ public class WebShopController {
     @PostMapping("/login")
     public String login(@RequestParam String name, Model m) {
         Customer customer = webShopService.login(name);
-        if (customer == null){
+        if (customer == null) {
             return "errormessage";
-        }else {
+        } else {
             m.addAttribute("customername", webShopService.getCustomer().getName());
-            return "showproducts";
+            return "showcategories";
         }
     }
+
     @PostMapping("/register")
-    public String registerNewCostumer(@RequestParam String name, Model m){
+    public String registerNewCustomer(@RequestParam String name, Model m) {
         webShopService.register(name);
-        m.addAttribute("newCostumer",webShopService.register(name));
-        return "showproducts";
+        m.addAttribute("newCustomer", webShopService.register(name));
+        return "showcategories";
     }
 
-
-    @GetMapping("/webshop")
-    public String
-    shopPage(Model m) {
-        List<Product> listProducts = webShopService.listAll();
-        m.addAttribute("listProducts", listProducts);
-        return "showproducts";
-    }
-
-    @PostMapping("/adminlogin")
-    public String adminLogin(@RequestParam String name, Model m) {
+    @PostMapping("/addnewproduct")
+    public String adminpage(@RequestParam String name, Model m) {
         webShopService.adminLogin(name);
-        m.addAttribute("adminname", webShopService.getAdmin().getName());
-        return "adminpage";
+        m.addAttribute("name", webShopService.getAdmin().getName());
+        m.addAttribute("product", new Product());
+        return "newproduct";
     }
 
-//    @PostMapping("/adminwebshop")
-//    public String createProduct(Model m){
-//        m.addAttribute("product", webShopService.save());
-//        return "adminwebshop";
-//    }
+    @PostMapping("/new")
+    public String addNewProduct(Product product, Model m) {
+        webShopService.add(product);
+        m.addAttribute("product", new Product());
+        return "newproduct";
+    }
+
+    @PostMapping("/webshop")
+    public String showCategories(@RequestParam Category category, Model m) {
+        m.addAttribute("products",webShopService.getProductByCategory(category));
+        return "showproducts";
+    }
+
+    @PostMapping("/searchproducts")
+    public String showProducts(@RequestParam String product, Model m){
+        m.addAttribute("products", webShopService.getProductByName(product));
+        return "showproducts";
+    }
 
 
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Web shop</title>
+</head>
+<body>
+<h3>Kategori lista:</h3>
+<form th:action="@{/webshop}" method="post">
+    Produkt kategori: <select name="category">
+    <option th:each="c : ${T(com.example.webshop.business.Category).values()}"
+            th:value="${c}" th:text="${c}"></option>
+</select></br>
+    <input type="submit" value="Välj">
+    </form>
+<form action="/searchproducts" method="post">
+    <input type="text" name="product" id="search-input"></br>
+    <input type="submit" value="Sök"/>
+    <div th:each="p : ${products}">
+        <p th:text="${p.name}"></p>
+    </div>
+</form>
+</div>
+</body>
+</html>

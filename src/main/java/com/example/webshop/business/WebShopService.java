@@ -13,7 +13,7 @@ import java.util.List;
 @SessionScope
 public class WebShopService {
     @Autowired
-    CustomerRepository costumerRepo;
+    CustomerRepository customerRepository;
     @Autowired
     ProductRepository productRepo;
     @Autowired
@@ -22,17 +22,21 @@ public class WebShopService {
     private Customer customer;
     boolean isLoggedIn;
 
-    public List<Product> listAll() {
+    public List<Product> getAll() {
         return productRepo.findAll();
     }
 
-    public void save(Product product) {
+    public void add(Product product) {
         productRepo.save(product);
+    }
+
+    public Product getById(Long id){
+       return productRepo.findById(id).get();
     }
 
     public Customer login(String name) {
         Customer c = null;
-        List<Customer> customerList = costumerRepo.findByName(name);
+        List<Customer> customerList = customerRepository.findByName(name);
         if (customerList.size() > 0) {
             c = customerList.get(0);
         }
@@ -43,10 +47,10 @@ public class WebShopService {
 
     public Customer register(String name) {
         Customer c = null;
-        List<Customer> customerList = costumerRepo.findByName(name);
+        List<Customer> customerList = customerRepository.findByName(name);
         if (customerList.size() == 0) {
             Customer cust = new Customer(name);
-            c = costumerRepo.save(cust);
+            c = customerRepository.save(cust);
         }
         else {
             System.out.println("Logga in om du är en befintlig medlem!");
@@ -79,12 +83,12 @@ public class WebShopService {
     }
 
 
-    public CustomerRepository getCostumerRepo() {
-        return costumerRepo;
+    public CustomerRepository getCustomerRepository() {
+        return customerRepository;
     }
 
-    public void setCostumerRepo(CustomerRepository costumerRepo) {
-        this.costumerRepo = costumerRepo;
+    public void setCustomerRepository(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     public Customer getCustomer() {
@@ -128,4 +132,11 @@ public class WebShopService {
     }
 
 
+    public List<Product> getProductByCategory(Category category) {
+        return productRepo.findByCategory(category);
+    }
+
+    public List<Product> getProductByName(String product) {
+        return productRepo.findByName(product);
+    }
 }
