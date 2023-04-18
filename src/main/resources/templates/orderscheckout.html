@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CheckOut</title>
+</head>
+Tack för ditt köp!</br>
+Här är en lista av dina produkter:
+<body>
+<div th:each="c : ${customerorder}">
+    <div th:each="ol : ${c.orderLines}">
+        <td th:text="${ol.amount}"></td> st
+        <td th:text="${ol.product.name}"></td>
+        <td th:text="${ol.product.price}"></td> kr
+    </div>
+</div>
+</body>
+</html>

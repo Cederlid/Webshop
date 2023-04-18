@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShoppingCart</title>
+</head>
+<body>
+<tr th:each="item,loopinfo : ${items}">
+    </br>
+    Namn:
+    <td><span th:text="${item.product.name}">Produkt namn</span> </td>
+    Pris:
+    <td><span th:text="${item.product.price}">Produkt pris</span>
+    <td>
+    <form action="removefromcart" method="post">
+       <input type="hidden" name="itemindex" th:value="${loopinfo.index}">
+        <input type="text" name="amount" th:value="${item.amount}">
+       <input type="submit" name="remove" value="Uppdatera">
+    </form>
+    </td>
+</tr>
+Att betala:
+<td th:text="${amount}"></td>
+<form action="/completeorder" method="post">
+    <input name="confirmorder" type="submit" value="Bekräfta köp">
+</form>
+<p>Fortsätt <a href="/webshop">handla</a></p>
+</body>
+</html>

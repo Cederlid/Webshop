@@ -16,10 +16,10 @@
 <form action="/searchproducts" method="post">
     <input type="text" name="product" id="search-input"></br>
     <input type="submit" value="Sök"/>
-    <div th:each="p : ${products}">
-        <p th:text="${p.name}"></p>
-    </div>
+    <div th:each="p : ${products}"></div>
 </form>
+<p>Visa alla  <a href="/all">produkter</a>.</p>
+<p>Visa <a href="/cart">varukorgen</a></p>
 </div>
 </body>
 </html>

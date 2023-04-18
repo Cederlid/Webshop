@@ -2,7 +2,9 @@ package com.example.webshop.business;
 
 import com.example.webshop.data.AdminRepository;
 import com.example.webshop.data.CustomerRepository;
+import com.example.webshop.data.OrderRepository;
 import com.example.webshop.data.ProductRepository;
+import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
@@ -17,21 +19,27 @@ public class WebShopService {
     @Autowired
     ProductRepository productRepo;
     @Autowired
+    OrderRepository orderRepository;
+    @Autowired
     AdminRepository adminRepo;
     private Admin admin;
+    private Product product;
+    private ShoppingCart shoppingCart;
+    private CustomerOrder customerOrder;
     private Customer customer;
     boolean isLoggedIn;
 
-    public List<Product> getAll() {
-        return productRepo.findAll();
+    public WebShopService() {
+        shoppingCart = new ShoppingCart();
+        customerOrder = new CustomerOrder(shoppingCart.getOrderLines(), customer);
     }
 
     public void add(Product product) {
         productRepo.save(product);
     }
 
-    public Product getById(Long id){
-       return productRepo.findById(id).get();
+    public Product getProductById(Long id) {
+        return productRepo.findById(id).get();
     }
 
     public Customer login(String name) {
@@ -51,11 +59,10 @@ public class WebShopService {
         if (customerList.size() == 0) {
             Customer cust = new Customer(name);
             c = customerRepository.save(cust);
-        }
-        else {
+        } else {
             System.out.println("Logga in om du är en befintlig medlem!");
         }
-        customer =c;
+        customer = c;
         isLoggedIn = true;
         return c;
     }
@@ -74,63 +81,37 @@ public class WebShopService {
         return a;
     }
 
-    public Product get(long id) {
-        return productRepo.findById(id).get();
+    public  ShoppingCart addProductToCart(Long id, int amount){
+        shoppingCart.orderLines.add(new OrderLine(getProductById((id)),amount));
+        System.out.println(id + " " + amount);
+        return shoppingCart;
     }
 
-    public void delete(long id) {
-        productRepo.deleteById(id);
+    public void addToOrder(){
+        customer.addOrder(new CustomerOrder(getShoppingCart().getOrderLines(),customer));
+        customer = customerRepository.save(customer);
+        clearShoppingCart();
     }
 
-
-    public CustomerRepository getCustomerRepository() {
-        return customerRepository;
+    public void clearShoppingCart(){
+        shoppingCart = new ShoppingCart();
     }
 
-    public void setCustomerRepository(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public void saveOrderDb(CustomerOrder customerOrder){
+        customerOrder = orderRepository.save(customerOrder);
     }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
-    }
-
     public ProductRepository getProductRepo() {
         return productRepo;
-    }
-
-    public void setProductRepo(ProductRepository productRepo) {
-        this.productRepo = productRepo;
-    }
-
-    public AdminRepository getAdminRepo() {
-        return adminRepo;
-    }
-
-    public void setAdminRepo(AdminRepository adminRepo) {
-        this.adminRepo = adminRepo;
     }
 
     public Admin getAdmin() {
         return admin;
     }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }
-
 
     public List<Product> getProductByCategory(Category category) {
         return productRepo.findByCategory(category);
@@ -139,4 +120,33 @@ public class WebShopService {
     public List<Product> getProductByName(String product) {
         return productRepo.findByName(product);
     }
+
+    public OrderRepository getOrderRepository() {
+        return orderRepository;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public CustomerOrder getOrder() {
+       return customer.getOrders().get(customer.getOrders().size()-1);
+    }
+
+    public List<CustomerOrder>getCustomerOrder() {
+        return customer.getOrders();
+    }
+
+    public List<CustomerOrder>getAllOrders(){
+        return orderRepository.findAll();
+    }
+
 }

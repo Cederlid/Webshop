@@ -9,6 +9,11 @@
     <td th:text="${p.name}"></td>
     <td th:text="${p.category}"></td>
     <td th:text="${p.price}"></td>
+    <form action="/addtocart" method="post">
+        <input type="hidden" name="id" th:value="${p.id}">
+        <input type="text" name="amount" value="1">
+        <input type="submit" value="Välj">
+    </form>
 </div>
 </body>
 </html>

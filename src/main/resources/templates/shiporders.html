@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="co : ${customerorder}">
+  <div th:each="ol : ${co.orderLines}">
+    <td th:text="${ol.product.name}"></td>
+    <td th:text="${ol.amount}"></td>
+    <td th:text="${co.isShipped}"></td>
+  </div>
+<form action="/placedorders" method="post">
+  <input type="hidden" name="status" th:value="${co.id}">
+  <input type="submit" name="ship" value="Skicka order">
+</form>
+</div>
+</body>
+</html>

@@ -2,9 +2,6 @@ package com.example.webshop.business;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 public class Product {
     @Id
@@ -15,7 +12,6 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-
     public Product(){
 
     }
@@ -23,6 +19,12 @@ public class Product {
         this.category = category;
         this.name = name;
         this.price = price;
+    }
+
+    public Product(String productName, Double productPrice, String productCategory) {
+        name = productName;
+        price = productPrice;
+        category = Category.valueOf(productCategory);
     }
 
     public void setId(Long id) {
