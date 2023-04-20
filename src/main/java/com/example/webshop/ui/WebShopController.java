@@ -1,9 +1,6 @@
 package com.example.webshop.ui;
 
-import com.example.webshop.business.Category;
-import com.example.webshop.business.Customer;
-import com.example.webshop.business.Product;
-import com.example.webshop.business.WebShopService;
+import com.example.webshop.business.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,13 +26,12 @@ public class WebShopController {
 
     @PostMapping("/register")
     public String registerNewCustomer(@RequestParam String name, Model m) {
-        webShopService.register(name);
         m.addAttribute("newCustomer", webShopService.register(name));
         return "showcategories";
     }
 
     @PostMapping("/addnewproduct")
-    public String adminpage(@RequestParam String name, Model m) {
+    public String adminPage(@RequestParam String name, Model m) {
         webShopService.adminLogin(name);
         m.addAttribute("name", webShopService.getAdmin().getName());
         m.addAttribute("product", new Product());
@@ -76,6 +72,7 @@ public class WebShopController {
     @GetMapping("cart")
     public String showCart(Model m) {
         m.addAttribute("items", webShopService.getShoppingCart().getOrderLines());
+        m.addAttribute("totalprice",webShopService.getSumOfShoppingCart());
         return "shoppingcart";
     }
 
@@ -94,8 +91,9 @@ public class WebShopController {
 
     @PostMapping("completeorder")
     public String checkOutOrder(Model m) {
-        webShopService.addToOrder();
+        webShopService.addOrder();
         m.addAttribute("customerorder", webShopService.getOrder());
+        m.addAttribute("totalprice",webShopService.getOrder().getSum());
         return "orderscheckout";
     }
 
@@ -104,12 +102,10 @@ public class WebShopController {
         m.addAttribute("customerorder", webShopService.getOrderRepository().findAll());
         return "shiporders";
     }
-    @PostMapping("placedorders")
-    public String shipOrdersIfNotShipped(@RequestParam int status, Model m) {
-        webShopService.getAllOrders().get(status).setShipped(true);
-        webShopService.saveOrderDb(webShopService.getAllOrders().get(status));
-        m.addAttribute("customer", webShopService.getCustomer());
-        m.addAttribute("customerorder", webShopService.getCustomerOrder());
+    @PostMapping("shiporder")
+    public String shipOrderIfNotShipped(@RequestParam Long id, Model m) {
+        webShopService.setShipped(id);
+        m.addAttribute("customerorder", webShopService.getOrderRepository().findAll());
         return "shiporders";
     }
 

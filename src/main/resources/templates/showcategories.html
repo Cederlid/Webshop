@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Web shop</title>
+    <style>
+        body {
+            background-color: deepskyblue;
+        }
+    </style>
 </head>
 <body>
-<h3>Kategori lista:</h3>
+<h3 style="color:blue;text-align:center;">Kategori lista:</h3>
 <form th:action="@{/webshop}" method="post">
     Produkt kategori: <select name="category">
     <option th:each="c : ${T(com.example.webshop.business.Category).values()}"
@@ -21,5 +26,6 @@
 <p>Visa alla  <a href="/all">produkter</a>.</p>
 <p>Visa <a href="/cart">varukorgen</a></p>
 </div>
+<img src="mycena.jpeg" alt="blodhätta" width="100" height="120">
 </body>
 </html>

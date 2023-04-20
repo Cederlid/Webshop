@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            background-color: lavenderblush;
+        }
+    </style>
 </head>
 <body>
 <div th:each="co : ${customerorder}">
-  <div th:each="ol : ${co.orderLines}">
-    <td th:text="${ol.product.name}"></td>
-    <td th:text="${ol.amount}"></td>
-    <td th:text="${co.isShipped}"></td>
-  </div>
-<form action="/placedorders" method="post">
-  <input type="hidden" name="status" th:value="${co.id}">
-  <input type="submit" name="ship" value="Skicka order">
-</form>
+    <div th:each="ol : ${co.orderLines}">
+        <td th:text="${ol.product.name}"></td>
+        <td th:text="${ol.amount}"></td>
+        <td th:text="${co.isShipped}"></td>
+    </div>
+    <div th:if="${co.isShipped == false}">
+        <form action="/shiporder" method="post">
+            <input type="hidden" name="id" th:value="${co.id}">
+            <input type="submit" name="ship" value="Skicka order">
+        </form>
+    </div>
 </div>
 </body>
 </html>

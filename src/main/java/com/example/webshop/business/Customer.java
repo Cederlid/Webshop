@@ -2,6 +2,7 @@ package com.example.webshop.business;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,7 +12,7 @@ public class Customer {
     private Long id;
     private String name;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<CustomerOrder> customerOrders;
+    private List<CustomerOrder> customerOrders = new ArrayList<>();
     public Customer() {
     }
 
@@ -46,4 +47,6 @@ public class Customer {
     public void setOrders(List<CustomerOrder> customerOrders) {
         this.customerOrders = customerOrders;
     }
+
+
 }

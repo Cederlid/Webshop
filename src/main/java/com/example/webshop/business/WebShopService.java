@@ -4,7 +4,6 @@ import com.example.webshop.data.AdminRepository;
 import com.example.webshop.data.CustomerRepository;
 import com.example.webshop.data.OrderRepository;
 import com.example.webshop.data.ProductRepository;
-import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
@@ -14,6 +13,9 @@ import java.util.List;
 @Service
 @SessionScope
 public class WebShopService {
+
+    @Autowired
+    EmailServiceImpl emailService;
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
@@ -25,13 +27,11 @@ public class WebShopService {
     private Admin admin;
     private Product product;
     private ShoppingCart shoppingCart;
-    private CustomerOrder customerOrder;
     private Customer customer;
     boolean isLoggedIn;
 
     public WebShopService() {
         shoppingCart = new ShoppingCart();
-        customerOrder = new CustomerOrder(shoppingCart.getOrderLines(), customer);
     }
 
     public void add(Product product) {
@@ -56,6 +56,7 @@ public class WebShopService {
     public Customer register(String name) {
         Customer c = null;
         List<Customer> customerList = customerRepository.findByName(name);
+        System.out.println(customerList + "lista");
         if (customerList.size() == 0) {
             Customer cust = new Customer(name);
             c = customerRepository.save(cust);
@@ -82,19 +83,17 @@ public class WebShopService {
     }
 
     public  ShoppingCart addProductToCart(Long id, int amount){
-        shoppingCart.orderLines.add(new OrderLine(getProductById((id)),amount));
+        shoppingCart.addProductToShoppingCart(getProductById(id),amount);
         System.out.println(id + " " + amount);
         return shoppingCart;
     }
 
-    public void addToOrder(){
-        customer.addOrder(new CustomerOrder(getShoppingCart().getOrderLines(),customer));
+    public void addOrder(){
+        CustomerOrder co =new CustomerOrder(getShoppingCart().getOrderLines(),customer);
+        customer.addOrder(co);
         customer = customerRepository.save(customer);
-        clearShoppingCart();
-    }
-
-    public void clearShoppingCart(){
-        shoppingCart = new ShoppingCart();
+        shoppingCart.clearShoppingCart();
+        emailService.sendSimpleMessage("hardrock_17@hotmail.com", "Köpta varor","Tack för din beställning! Dina varor är skickade! " + getCustomerOrder());
     }
 
     public void saveOrderDb(CustomerOrder customerOrder){
@@ -141,6 +140,16 @@ public class WebShopService {
        return customer.getOrders().get(customer.getOrders().size()-1);
     }
 
+    public void setShipped(Long id){
+        CustomerOrder co = orderRepository.findById(id).get();
+        co.setShipped(true);
+        orderRepository.save(co);
+    }
+
+    public double getSumOfShoppingCart(){
+        double sum = shoppingCart.sumOfShoppingCart();
+        return sum;
+    }
     public List<CustomerOrder>getCustomerOrder() {
         return customer.getOrders();
     }

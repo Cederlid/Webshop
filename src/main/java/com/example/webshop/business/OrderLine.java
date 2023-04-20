@@ -51,4 +51,10 @@ public class OrderLine {
     public void removeFromAmount(){
         this.amount--;
     }
+
+    @Override
+    public String toString() {
+        return product + ", Antal: " + amount ;
+    }
+
 }

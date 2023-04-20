@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Web shop</title>
+    <style>
+        body {
+            background-color: lavender;
+        }
+    </style>
 </head>
 <body>
-<h3>Lägg till produkt!</h3>
+<h3 style="color:blue;text-align:center;">Lägg till produkt!</h3>
 <form th:action="@{/new}" method="post" th:object="${product}">
     Produkt kategori: <select name="category" th:field="*{category}">
         <option th:each="category : ${T(com.example.webshop.business.Category).values()}"

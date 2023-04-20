@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>ShoppingCart</title>
+    <style>
+        body {
+            background-color: deepskyblue;
+        }
+    </style>
 </head>
 <body>
 <tr th:each="item,loopinfo : ${items}">
@@ -24,6 +29,7 @@ Att betala:
 <form action="/completeorder" method="post">
     <input name="confirmorder" type="submit" value="Bekräfta köp">
 </form>
+<td th:text="${totalprice}"></td>
 <p>Fortsätt <a href="/webshop">handla</a></p>
 </body>
 </html>

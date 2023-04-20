@@ -26,6 +26,14 @@ public class CustomerOrder {
         this.isShipped = false;
     }
 
+    public double getSum(){
+        Double temp = 0.0;
+        for (OrderLine orderLine: orderLines) {
+            temp += (int) (orderLine.product.getPrice() * orderLine.getAmount());
+        }
+        return temp;
+    }
+
     public List<OrderLine> getOrderLines() {
         return orderLines;
     }
@@ -57,4 +65,10 @@ public class CustomerOrder {
     public Long getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "" + orderLines;
+    }
+
 }

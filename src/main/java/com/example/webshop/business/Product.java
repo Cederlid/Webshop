@@ -21,12 +21,6 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String productName, Double productPrice, String productCategory) {
-        name = productName;
-        price = productPrice;
-        category = Category.valueOf(productCategory);
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -57,6 +51,12 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return " Produkt: " + name +
+                ", pris: " + price;
     }
 
 }

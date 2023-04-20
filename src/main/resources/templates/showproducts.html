@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Produkter</title>
+    <style>
+        body {
+            background-color: deepskyblue;
+        }
+    </style>
 </head>
 <body>
 <div th:each="p : ${products}">
@@ -15,5 +20,6 @@
         <input type="submit" value="Välj">
     </form>
 </div>
+<img src="entoloma.jpeg" alt="lila nopping" width="120" height="140">
 </body>
 </html>
