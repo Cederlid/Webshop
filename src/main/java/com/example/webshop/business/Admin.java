@@ -9,7 +9,7 @@ public class Admin {
     private Long id;
     private String name;
 
-    public Admin(){
+    public Admin() {
 
     }
 

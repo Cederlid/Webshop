@@ -10,25 +10,25 @@ public class CustomerOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<OrderLine>orderLines;
+    List<OrderLine> orderLines;
     @ManyToOne
     Customer customer;
 
     private boolean isShipped;
 
-    public CustomerOrder(){
+    public CustomerOrder() {
 
     }
 
-    public CustomerOrder(List<OrderLine> orderLines, Customer customer){
+    public CustomerOrder(List<OrderLine> orderLines, Customer customer) {
         this.orderLines = orderLines;
         this.customer = customer;
         this.isShipped = false;
     }
 
-    public double getSum(){
+    public double getSum() {
         Double temp = 0.0;
-        for (OrderLine orderLine: orderLines) {
+        for (OrderLine orderLine : orderLines) {
             temp += (int) (orderLine.product.getPrice() * orderLine.getAmount());
         }
         return temp;

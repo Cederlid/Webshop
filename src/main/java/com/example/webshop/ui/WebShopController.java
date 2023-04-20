@@ -26,8 +26,13 @@ public class WebShopController {
 
     @PostMapping("/register")
     public String registerNewCustomer(@RequestParam String name, Model m) {
-        m.addAttribute("newCustomer", webShopService.register(name));
-        return "showcategories";
+        Customer customer = webShopService.register(name);
+        if (customer == null) {
+            return "errormessage";
+        } else {
+            m.addAttribute("newCustomer", customer);
+            return "showcategories";
+        }
     }
 
     @PostMapping("/addnewproduct")
@@ -72,7 +77,7 @@ public class WebShopController {
     @GetMapping("cart")
     public String showCart(Model m) {
         m.addAttribute("items", webShopService.getShoppingCart().getOrderLines());
-        m.addAttribute("totalprice",webShopService.getSumOfShoppingCart());
+        m.addAttribute("totalprice", webShopService.getSumOfShoppingCart());
         return "shoppingcart";
     }
 
@@ -93,15 +98,16 @@ public class WebShopController {
     public String checkOutOrder(Model m) {
         webShopService.addOrder();
         m.addAttribute("customerorder", webShopService.getOrder());
-        m.addAttribute("totalprice",webShopService.getOrder().getSum());
+        m.addAttribute("totalprice", webShopService.getOrder().getSum());
         return "orderscheckout";
     }
 
     @GetMapping("allorders")
-    public String showAllOrders(Model m){
+    public String showAllOrders(Model m) {
         m.addAttribute("customerorder", webShopService.getOrderRepository().findAll());
         return "shiporders";
     }
+
     @PostMapping("shiporder")
     public String shipOrderIfNotShipped(@RequestParam Long id, Model m) {
         webShopService.setShipped(id);

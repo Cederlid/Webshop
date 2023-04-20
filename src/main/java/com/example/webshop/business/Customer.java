@@ -13,6 +13,7 @@ public class Customer {
     private String name;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CustomerOrder> customerOrders = new ArrayList<>();
+
     public Customer() {
     }
 
@@ -20,7 +21,7 @@ public class Customer {
         this.name = name;
     }
 
-    public void addOrder(CustomerOrder customerOrder){
+    public void addOrder(CustomerOrder customerOrder) {
         customerOrders.add(customerOrder);
     }
 

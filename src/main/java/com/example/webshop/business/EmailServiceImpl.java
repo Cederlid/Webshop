@@ -10,8 +10,7 @@ public class EmailServiceImpl {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendSimpleMessage(
-            String to, String subject, String text) {
+    public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("w.cederlid@gmail.com");
         message.setTo(to);

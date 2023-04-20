@@ -47,9 +47,9 @@ public class WebShopService {
         List<Customer> customerList = customerRepository.findByName(name);
         if (customerList.size() > 0) {
             c = customerList.get(0);
+            isLoggedIn = true;
         }
         customer = c;
-        isLoggedIn = true;
         return c;
     }
 
@@ -60,11 +60,11 @@ public class WebShopService {
         if (customerList.size() == 0) {
             Customer cust = new Customer(name);
             c = customerRepository.save(cust);
+            isLoggedIn = true;
         } else {
             System.out.println("Logga in om du är en befintlig medlem!");
         }
         customer = c;
-        isLoggedIn = true;
         return c;
     }
 

@@ -48,13 +48,13 @@ public class OrderLine {
         this.amount = amount;
     }
 
-    public void removeFromAmount(){
+    public void removeFromAmount() {
         this.amount--;
     }
 
     @Override
     public String toString() {
-        return product + ", Antal: " + amount ;
+        return product + ", Antal: " + amount;
     }
 
 }

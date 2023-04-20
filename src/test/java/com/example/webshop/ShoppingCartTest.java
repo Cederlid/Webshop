@@ -32,7 +32,7 @@ public class ShoppingCartTest {
     @Test
     public void testAdjustProductInShoppingCart() {
         shoppingCart.addProductToShoppingCart(product1, 2);
-        List<OrderLine>result = shoppingCart.adjustProductInShoppingCart(0, 1);
+        List<OrderLine> result = shoppingCart.adjustProductInShoppingCart(0, 1);
         assertEquals(1, result.get(0).getAmount());
 
     }
@@ -46,9 +46,9 @@ public class ShoppingCartTest {
 
     @Test
     public void testAddProductToShoppingCart() {
-        shoppingCart.addProductToShoppingCart(product1,1);
-        shoppingCart.addProductToShoppingCart(product2,2);
-        assertEquals(2,shoppingCart.getOrderLines().size());
+        shoppingCart.addProductToShoppingCart(product1, 1);
+        shoppingCart.addProductToShoppingCart(product2, 2);
+        assertEquals(2, shoppingCart.getOrderLines().size());
     }
 
 }
