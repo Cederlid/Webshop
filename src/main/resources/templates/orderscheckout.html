@@ -5,19 +5,21 @@
     <title>CheckOut</title>
     <style>
         body {
-            background-color: palegoldenrod;
+            background-color: peachpuff;
         }
     </style>
 </head>
 <h3 style="color:green;text-align:center;">Tack för ditt köp!</h3>
 <h4>Här är en lista av dina produkter:</h4>
 <body>
-    <div th:each="ol : ${customerorder.orderLines}">
-        <td th:text="${ol.amount}"></td> st
-        <td th:text="${ol.product.name}"></td>
-        <td th:text="${ol.product.price}"></td> kr
-    </div>
-   <b>Total belopp: <td th:text="${totalprice}"></td> kr</b>
-    <img src="amanita.jpeg" alt="Röd flugsvamp" width="100" height="120">
+<table th:each="ol : ${customerorder.orderLines}">
+        <tr>
+            <td> <span th:text="${ol.amount}"/>st</td>
+            <td th:text="${ol.product.name}"/>
+            <td><span th:text="${ol.product.price}"/>kr</td>
+        </tr>
+</table>
+<b>Total belopp: <td th:text="${totalprice}"/> kr</b>
+<img src="amanita.jpeg" alt="Röd flugsvamp" width="100" height="120">
 </body>
 </html>

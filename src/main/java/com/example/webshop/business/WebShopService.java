@@ -42,6 +42,10 @@ public class WebShopService {
         return productRepo.findById(id).get();
     }
 
+    public List<Product> getAllProducts() {
+        return productRepo.findAll();
+    }
+
     public Customer login(String name) {
         Customer c = null;
         List<Customer> customerList = customerRepository.findByName(name);
@@ -82,21 +86,21 @@ public class WebShopService {
         return a;
     }
 
-    public  ShoppingCart addProductToCart(Long id, int amount){
-        shoppingCart.addProductToShoppingCart(getProductById(id),amount);
+    public ShoppingCart addProductToCart(Long id, int amount) {
+        shoppingCart.addProductToShoppingCart(getProductById(id), amount);
         System.out.println(id + " " + amount);
         return shoppingCart;
     }
 
-    public void addOrder(){
-        CustomerOrder co =new CustomerOrder(getShoppingCart().getOrderLines(),customer);
+    public void addOrder() {
+        CustomerOrder co = new CustomerOrder(getShoppingCart().getOrderLines(), customer);
         customer.addOrder(co);
         customer = customerRepository.save(customer);
         shoppingCart.clearShoppingCart();
-        emailService.sendSimpleMessage("hardrock_17@hotmail.com", "Köpta varor","Tack för din beställning! Dina varor är skickade! " + getCustomerOrder());
+        emailService.sendSimpleMessage("hardrock_17@hotmail.com", "Köpta varor", "Tack för din beställning! Dina varor är skickade! " + getOrder());
     }
 
-    public void saveOrderDb(CustomerOrder customerOrder){
+    public void saveOrderDb(CustomerOrder customerOrder) {
         customerOrder = orderRepository.save(customerOrder);
     }
 
@@ -137,25 +141,38 @@ public class WebShopService {
     }
 
     public CustomerOrder getOrder() {
-       return customer.getOrders().get(customer.getOrders().size()-1);
+        return customer.getOrders().get(customer.getOrders().size() - 1);
     }
 
-    public void setShipped(Long id){
+    public void setShipped(Long id) {
         CustomerOrder co = orderRepository.findById(id).get();
         co.setShipped(true);
         orderRepository.save(co);
     }
 
-    public double getSumOfShoppingCart(){
+    public double getSumOfShoppingCart() {
         double sum = shoppingCart.sumOfShoppingCart();
         return sum;
     }
-    public List<CustomerOrder>getCustomerOrder() {
+
+    public List<CustomerOrder> getCustomerOrder() {
         return customer.getOrders();
     }
 
-    public List<CustomerOrder>getAllOrders(){
+    public List<CustomerOrder> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    public List<Product> deleteProductById(Long id) {
+        productRepo.deleteById(id);
+        return productRepo.findAll();
+    }
+
+    public Product updateProductPriceById(double price, Long id) {
+        product = productRepo.findById(id).get();
+        product.setPrice(price);
+        product = productRepo.save(product);
+        return product;
     }
 
 }
