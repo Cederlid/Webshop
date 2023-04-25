@@ -1,13 +1,17 @@
 package com.example.webshop.business;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank
     private String name;
+    @Min(1)
+    @Max(1000)
     private double price;
     @Enumerated(EnumType.STRING)
     private Category category;
