@@ -22,8 +22,8 @@ public class RestWebShopController {
         return webShopService.getAllProducts();
     }
 
-    @GetMapping("/rest/bycategory")
-    public ResponseEntity<List<Product>> getProductByCategory(@RequestParam Category category) {
+    @GetMapping("/rest/bycategory/{category}")
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable Category category) {
         if (webShopService.getProductByCategory(category).isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         } else {
@@ -70,8 +70,8 @@ public class RestWebShopController {
 
     }
 
-    @PutMapping("/rest/updateprice")
-    public ResponseEntity<String> updateProductPriceById(@RequestParam Long id, @RequestParam double price) {
+    @PutMapping("/rest/updateprice/{id}/{price}")
+    public ResponseEntity<String> updateProductPriceById(@PathVariable Long id, @PathVariable double price) {
         if (price < 1 || price > 1000) {
             return ResponseEntity.badRequest().body("FEL! priset ska ligga mellan 1 och 1000");
         } else {
